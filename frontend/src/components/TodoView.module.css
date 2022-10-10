@@ -1,0 +1,10 @@
+.todoViewContainer {
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.todoViewCard {
+    background-color: aqua;
+}
