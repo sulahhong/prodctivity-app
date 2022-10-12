@@ -14,7 +14,8 @@ const getLocalStorage = () => {
 const AppProvider = ({ children }) => {
 
 const [todos, setTodos] = useState(getLocalStorage());  
-
+const [targetTodoGlobal, setTargetTodoGlobal] = useState({});
+const [isEditingTodo, setIsEditingTodo] = useState(false);
 const [openModal, setOpenModal] = useState(false);
 
 useEffect(() => {
@@ -28,6 +29,10 @@ return (
         setTodos,
         openModal,
         setOpenModal,
+        targetTodoGlobal,
+        setTargetTodoGlobal,
+        isEditingTodo,
+        setIsEditingTodo,
       }}>
        {children}
    </AppContext.Provider>

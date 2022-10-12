@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from "./TodoModal.module.css";
 
 function TodoModal() {
-  const { todos, setTodos, openModal, setOpenModal } = useGlobalContext();
+  const { todos, setTodos, openModal, setOpenModal, targetTodoGlobal, setIsEditingTodo, isEditingTodo} = useGlobalContext();
   const [todoForm, setTodoForm] = useState({
     todoId: "",
     todoTitle: "",
@@ -26,7 +26,10 @@ function TodoModal() {
     todoDueDate,
   } = todoForm;
 
-  
+  useEffect(() => {
+      setTodoForm(targetTodoGlobal)
+      console.log("jenggo", isEditingTodo)
+  },[])
 
   useEffect(() => {
     console.log("todos", todos);
@@ -59,6 +62,23 @@ function TodoModal() {
 
   }
 
+  const handleEditTodoModal = () => {
+    const nonEditArray= todos.filter((item)=>item.todoId!=todoId)
+
+    console.log("hhh", nonEditArray)
+    nonEditArray.push({ "todoId":todoId,
+      "todoTitle":todoTitle,
+      "todoDescription":todoDescription,
+      "todoDone": todoDone,
+      "todoPriority": todoPriority,
+      "todoCreateDate": todoCreateDate,
+      "todoDueDate": todoDueDate})
+
+      console.log("hhhV22222", nonEditArray)
+
+      setTodos(nonEditArray)
+  }
+
   const createNewTodo = () => {
     console.log("gg", todoForm)
 
@@ -66,9 +86,13 @@ function TodoModal() {
   }
 
   useEffect(()=>{
-    if(todoCreateDate && todoId){
-      createNewTodo()
+    if(!isEditingTodo){
+      if(todoCreateDate && todoId){
+        createNewTodo()
+      }
+      console.log("i run")
     }
+    
 
   }, [todoCreateDate, todoId])
 
@@ -118,7 +142,7 @@ function TodoModal() {
               onChange={handleTodoChange}
             />
           </div>
-          <button className={styles.todoModalAddTodo} onClick={() => handleCreateTodo()}>add</button>
+         {isEditingTodo ? <button className={styles.todoModalAddTodo} onClick={() => handleEditTodoModal()}>Edit</button> : <button className={styles.todoModalAddTodo} onClick={() => handleCreateTodo()}>Add</button>}
         </div>
         </div>
 
